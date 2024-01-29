@@ -1,7 +1,11 @@
 import fs from "fs";
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const create = async () => {
-    const filename = 'files/fresh.txt';
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = dirname(__filename);
+    const filename = path.join(__dirname, "files", "fresh.txt");
     const content = 'I am fresh and young';
 
     fs.open(filename, 'wx', (err, fd) => {
@@ -11,8 +15,7 @@ const create = async () => {
             }
             throw err;
         }
-
-        // Write to the file and then close it
+        
         fs.write(fd, content, (err) => {
             if (err) throw err;
             fs.close(fd, (err) => {

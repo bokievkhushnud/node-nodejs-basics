@@ -1,10 +1,17 @@
 import fs from "fs";
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 const copy = async () => {
-  const source = "files";
-  const destination = "files_copy";
-  fs.access(source, fs.constants.F_OK, (err) => {
+  // Write your code here
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const source = path.join(__dirname, "files");
+  const destination = path.join(__dirname, "files_copy");
+
+  fs.access(destination, fs.constants.F_OK, (err) => {
     if (!err) {
+      console.log(err)
       throw new Error(`FS operation failed`);
     }
     fs.mkdir(destination, { recursive: true }, (err) => {
