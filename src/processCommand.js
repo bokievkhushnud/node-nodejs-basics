@@ -18,7 +18,7 @@ import {
   renameFile,
 } from "./fileOperations.js";
 
-export async function processCommand(input, callback) {
+export function processCommand(input, callback) {
   const args = input.split(" ");
   const command = args[0];
 

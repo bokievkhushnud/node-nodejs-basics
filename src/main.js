@@ -18,9 +18,10 @@ rl.on('line', (input) => {
     rl.close();
   }
   processCommand(input, (response) => {
-    console.log(`You are currently in ${process.cwd()}`);
+    console.log(response);
     rl.prompt();
   });
+  console.log(`You are currently in ${process.cwd()}`);
 });
 
 rl.on('close', () => {
