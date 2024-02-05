@@ -2,7 +2,7 @@ import { promises as fsPromises } from "fs";
 import { createReadStream, createWriteStream } from "fs";
 import path from "path";
 
-export function readFile(filePath) {
+export async function readFile(filePath) {
   const readStream = createReadStream(filePath);
 
   readStream.on("error", (error) => {
@@ -17,9 +17,8 @@ export async function addFile(fileName) {
 
   try {
     await fsPromises.writeFile(filePath, "");
-    console.log(`Created an empty file at ${filePath}`);
   } catch (error) {
-    console.error(`Operation failed`);
+    console.log(`Operation failed`);
   }
 }
 

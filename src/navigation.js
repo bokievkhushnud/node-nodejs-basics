@@ -1,7 +1,7 @@
 import path from "path";
 import { promises as fsPromises } from "fs";
 
-export function goUp() {
+export async function goUp() {
   const currentDir = process.cwd();
   const parentDir = path.dirname(currentDir);
 
@@ -13,14 +13,11 @@ export function goUp() {
 
   // Change the working directory
   process.chdir(parentDir);
-  console.log(`Moved up to ${parentDir}`);
 }
 
 export async function changeDir(targetPath) {
-  console.log(targetPath);
   try {
     const newDir = path.resolve(process.cwd(), targetPath);
-    console.log(newDir);
     await fsPromises.access(newDir);
     process.chdir(newDir);
   } catch (error) {
@@ -53,18 +50,7 @@ export async function listFilesAndFolders() {
       "Type".length
     );
 
-    // Print header
-    console.log(
-      `${"Index".padEnd(indexWidth)} ${"Type".padEnd(typeWidth)} Name`
-    );
-    console.log(`${"-".repeat(indexWidth)} ${"-".repeat(typeWidth)} ----`);
-
-    // Print each item
-    sortedItems.forEach((item, index) => {
-      const indexStr = (index + 1).toString().padEnd(indexWidth);
-      const typeStr = item.type.padEnd(typeWidth);
-      console.log(`${indexStr} ${typeStr} ${item.name}`);
-    });
+    console.table(sortedItems);
   } catch (error) {
     console.error("Operation failed");
   }

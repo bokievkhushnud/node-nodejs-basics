@@ -5,11 +5,9 @@ export function printEOL() {
 }
 
 export function printCPUsInfo() {
-    const cpus = os.cpus();
-    console.log(`Total CPUs: ${cpus.length}`);
-    cpus.forEach((cpu, index) => {
-        console.log(`CPU ${index + 1}: ${cpu.model}, Speed: ${cpu.speed / 1000} GHz`);
-    });
+    const cpus = os.cpus().map(({model, speed}) => ({ model, speed: `${speed/1000} GHz`}));
+    console.table(cpus);
+ 
 }
 
 export function printHomeDir() {

@@ -1,33 +1,40 @@
-import readline from 'readline';
-import { processCommand } from './processCommand.js';
-import os from 'os';
+import readline from "readline";
+import { processCommand } from "./processCommand.js";
+import os from "os";
+
+const showCurrentDirectory = () => {
+  process.stdout.write(`You are currently in '${process.cwd()}'\n`);
+};
 
 const homeDirectory = os.homedir();
 process.chdir(homeDirectory);
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
 });
 
-const username = process.argv.slice(2).find(arg => arg.startsWith('--username='))?.split('=')[1] ?? 'User';
+const username =
+  process.argv
+    .slice(2)
+    .find((arg) => arg.startsWith("--username="))
+    ?.split("=")[1] ?? "User";
 console.log(`Welcome to the File Manager, ${username}!`);
 
-rl.on('line', (input) => {
-  if (input === '.exit') {
+rl.on("line", async(input) => {
+  if (input === ".exit") {
     rl.close();
   }
-  processCommand(input, (response) => {
-    console.log(response);
-    rl.prompt();
+  await processCommand(input, (error) => {
+    console.error("Invalid input");
   });
-  console.log(`You are currently in ${process.cwd()}`);
+  showCurrentDirectory();
 });
 
-rl.on('close', () => {
+rl.on("close", () => {
   console.log(`Thank you for using File Manager, ${username}, goodbye!`);
   process.exit(0);
 });
 
-console.log(`You are currently in ${process.cwd()}`);
+showCurrentDirectory();
 rl.prompt();
